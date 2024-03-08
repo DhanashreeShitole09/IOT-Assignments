@@ -1,0 +1,1289 @@
+26/10/2021
+>>raspberry pi
+40 pin gpio 
+2 usb port cammera port
+mini computer
+ble beacon
+no analog pin
+
+
+
+>raspberry pi setup with memory card
+	step 1
+memory card in card reader.
+connect to Laptop
+go sd card formatter
+format memory card
+operating system
+download operating system
+raspberry pi OS()
+install(raspberry pi imager software)
+go to raspberry pi imager
+choose OS-raspberry pi 32 bit(you can costamize this)
+select storage-memory card(storage)
+click on write
+it takes 20 min
+
+now memory card is ready to use in RPI software
+lets enable it for allowing remote login via SSH
+
+1 create a empty file with name SSR and no extantion
+    create new file with name ssh on desktop
+    remove that .txt extantion by renaming the file
+if you are unable to do this then another step
+    >go in files explorer then click on view and go to extantion view remove .txt then click on ok
+ 
+2  open memory card where you will see OS files and copy ssh file there
+now your OS is ready to accept remote ssh connection
+ 
+now raspberry pi is ready to use
+now connect memory card is connected to raspberry pi
+connect raspberry pi to laptop  by USB (C type USB)
+connect raspberry pi ethernet port to laptop ethernet port
+
+now windows+r
+    type cmd
+     then ok
+    then type ping raspberrypi.local cammand in cms.exe
+    get responce
+you get that raspberry is connected
+    not find host raspberry
+then open advance ip scanner then scan
+ after that open putty software
+put the ip of raspberry"raspberrypi.local"
+open putty portal
+login: pi
+enter
+vncserver
+enter
+
+> then go to vnc viewer
+type raspberrypi.local:click
+user name pi
+password raspberry
+connect to wifi to raspberry pi and laptop{same wifi must be connected}
+ work on iit enjoy games 
+
+
+
+
+27/10/2021
+
+steps== 
+1check the connection ping to raspberry in cmd
+2 putty: id=pi   password=raspberry(this is not visible so type on your on)
+3 type vncserver > enter
+4 go to vnc viewer
+put raspberry.local.1
+put 
+id:pi
+password:raspberry
+
+python
+RPi
+"as" creat dummy name
+
+
+@command (put in terminal for short cut)
+ls = list of file
+python *file name*=
+output
+
+>>>>>>>1 led blink with raspberry 
+
+	#program
+
+import RPi.GPIO as GPIO
+import time 
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(2,GPIO.OUT)
+				
+while 1:
+						
+        GPIO.output(2,True)
+        print("LED ON")	
+        time.sleep(1) 
+       
+							
+        GPIO.output(2,False)
+        print("LED OFF")	
+        time.sleep(1) 
+
+@28/10/2021
+
+
+>>>>>find the number is even or odd
+
+
+num=int(input("enter the number:"))
+if (num % 2)== 0:
+    print("{0} is even".format(num))
+else:
+    print("{0} is odd".format(num))
+output:
+enter the number:33
+33 is odd
+
+enter the number:4
+4 is even
+
+####we can do continuas operation by using while True condition
+while True:
+    num = int(input("enter the number:"))
+
+    if (num % 2)== 0:
+        print("{0} is even".format(num))
+    else:
+        print("{0} is odd".format(num))
+output:
+enter the number:3
+3 is odd
+enter the number:5
+5 is odd
+enter the number:9
+9 is odd
+enter the number:
+
+ir sensor with led in raspberry
+
+
+import RPi.GPIO as GPIO
+import time 
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(2,GPIO.OUT)
+GPIO.setup(14,GPIO.IN)
+
+while 1:
+	if(GPIO.input(14)==False): #object is far away
+			GPIO.output(2,True)
+			print("LED ON")	
+			time.sleep(1) 
+       
+	if(GPIO.input(14)==True): #object is far away
+			GPIO.output(2,False)
+			print("LED OFF")	
+			time.sleep(1) 
+output
+led off
+led on
+
+for stoping the runing code type ctrl+z
+
+ir sensor with led and counting interrupt
+
+PIO.setup(2,GPIO.OUT)
+GPIO.setup(14,GPIO.IN)
+c=0
+
+while 1:
+	if(GPIO.input(14)==False): #object is far away
+			GPIO.output(2,True)
+			print("LED ON")	
+			time.sleep(1) 
+       
+	if(GPIO.input(14)==True): #object is far away
+			GPIO.output(2,False)
+			print("LED OFF")	
+			time.sleep(1) 
+			c=c+1
+			print(c)
+
+output
+led on
+1
+led off
+2
+
+###3DHT11 sensor with RASPBERRY
+
+we have to install adafruit_DHT librabry in raspberry 
+
+tpye prgramm then 
+open terminal
+type: pip3 install Adafruit_DHT
+enter
+
+if not installed then
+
+
+ step for installing Adafruit_DHT library
+
+To install the Adafruit DHT11 library:
+
+1. Enter this at the command prompt to download the library:
+
+git clone https://github.com/adafruit/Adafruit_Python_DHT.git
+
+2. Change directories with:
+
+cd Adafruit_Python_DHT
+
+3. Now enter this:
+
+sudo apt-get install build-essential python-dev
+
+4. Then install the library with:
+
+sudo python setup.py install
+
+now go to program>>>
+for program 
+HOME>PI>ADAFRUIT>EXAMPLE> ADAFRUITDHT.PY
+
+incomplete task
+
+
+>>>>>30/10/2021
+ultrasonic sensor with raspberrypi 
+
+import RPi.GPIO as GPIO
+import time
+ 
+GPIO.setmode(GPIO.BCM)
+
+GPIO_TRIGGER = 18
+GPIO_ECHO = 24
+ 
+#set GPIO direction (IN / OUT)
+GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+GPIO.setup(GPIO_ECHO, GPIO.IN)
+ 
+def distance():
+    # set Trigger to HIGH
+    GPIO.output(GPIO_TRIGGER, True)
+ 
+    # set Trigger after 0.01ms to LOW
+    time.sleep(0.00001)
+    GPIO.output(GPIO_TRIGGER, False)
+ 
+    StartTime = time.time()
+    StopTime = time.time()
+ 
+    # save StartTime
+    while GPIO.input(GPIO_ECHO) == 0:
+        StartTime = time.time()
+ 
+    # save time of arrival
+    while GPIO.input(GPIO_ECHO) == 1:
+        StopTime = time.time()
+ 
+    # time difference between start and arrival
+    TimeElapsed = StopTime - StartTime
+    # multiply with the sonic speed (34300 cm/s)
+    # and divide by 2, because there and back
+    distance = (TimeElapsed * 34300) / 2
+ 
+    return distance
+ 
+if __name__ == '__main__':
+    try:
+        while True:
+            dist = distance()
+            print ("Measured Distance = %.1f cm" % dist)
+            time.sleep(1)
+ 
+        # Reset by pressing CTRL + C
+    except KeyboardInterrupt:
+        print("Measurement stopped by User")
+        GPIO.cleanup()
+
+
+
+#ultrasonic sensor with buzzer 
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+
+GPIO_TRIGGER = 18
+GPIO_ECHO = 24
+GPIO_BUZZER = 2
+ 
+#set GPIO direction (IN / OUT)
+GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+GPIO.setup(GPIO_ECHO, GPIO.IN)
+GPIO.setup(GPIO_BUZZER,GPIO.OUT)
+c=0
+ 
+def distance():
+    # set Trigger to HIGH
+    GPIO.output(GPIO_TRIGGER, True)
+ 
+    # set Trigger after 0.01ms to LOW
+    time.sleep(0.00001)
+    GPIO.output(GPIO_TRIGGER, False)
+ 
+    StartTime = time.time()
+    StopTime = time.time()
+ 
+    # save StartTime
+    while GPIO.input(GPIO_ECHO) == 0:
+        StartTime = time.time()
+ 
+    # save time of arrival
+    while GPIO.input(GPIO_ECHO) == 1:
+        StopTime = time.time()
+ 
+    # time difference between start and arrival
+    TimeElapsed = StopTime - StartTime
+    # multiply with the sonic speed (34300 cm/s)
+    # and divide by 2, because there and back
+    distance = (TimeElapsed * 34300) / 2
+ 
+    return distance 
+    
+ 
+if __name__ == '__main__':
+    try:
+        while True:
+            dist = distance()
+            print ("Measured Distance = %.1f cm" % dist)
+            if dist <= 10:
+               GPIO.output(GPIO_BUZZER,True)
+            else:
+                GPIO.output(GPIO_BUZZER,False)
+                
+            time.sleep(1) 
+  
+ 
+        # Reset by pressing CTRL + C
+    except KeyboardInterrupt:
+        print("Measurement stopped by User")
+        GPIO.cleanup()
+
+output: when distance is less then 10 cm then buzzer tune and if distance is greater then 10cm then buzzer no tune
+
+01/11/2021
+
+pwm with rasberry output on led
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(12,GPIO.OUT)
+pwm =GPIO.PWM(12,100)
+
+pwm.start(0)
+
+while True:
+	
+		for i in range(1,100):
+			pwm.ChangeDutyCycle(int(i))
+			time.sleep(0.01)
+			
+pwm.stop()
+GPIO.cleanup
+
+output:led blink like pulse
+
+2.
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(12,GPIO.OUT)
+pwm =GPIO.PWM(12,100)
+
+pwm.start(0)
+
+while True:
+	
+		for i in range(1,100,):
+			pwm.ChangeDutyCycle(int(i))
+			time.sleep(0.01)
+		for i in range(100,1,-1):
+			pwm.ChangeDutyCycle(int(i))
+			time.sleep(0.01)
+		
+pwm.stop()
+GPIO.cleanup
+
+mq2 sensor with raspberrypi
+(we connect the mq2 sensor in D0 pin for digital output becoz raspberry dont suppot to analog)
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(2,GPIO.OUT)
+GPIO.setup(14,GPIO.IN)
+
+while 1:
+	value =GPIO.input(14)
+	print(value) 
+	
+	if(GPIO.input(14)==True): 
+			GPIO.output(2,True)
+			print("LED ON")	
+			time.sleep(1) 
+       
+	if(GPIO.input(14)==False): 
+			GPIO.output(2,False)
+			print("LED OFF")	
+			time.sleep(1)
+output:
+sensor sense gases
+
+4*4 keypad with raspberrhy
+
+keypad library
+drop the python code from github 
+
+"first we have to run the keypad program and save is then you can you use the lock system program "
+
+1. keypad proogram
+
+#!/usr/bin/python
+ 
+import RPi.GPIO as GPIO
+ 
+class keypad():
+    def __init__(self, columnCount = 3):
+        GPIO.setmode(GPIO.BOARD)
+
+        # CONSTANTS 
+        if columnCount is 3:
+            self.KEYPAD = [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+                ["*",0,"#"]
+            ]
+
+            self.ROW         = [26,24,23,22]
+            self.COLUMN      = [21,19,10]
+        
+        elif columnCount is 4:
+            self.KEYPAD = [
+                [1,2,3,"A"],
+                [4,5,6,"B"],
+                [7,8,9,"C"],
+                ["*",0,"#","D"]
+            ]
+
+            self.ROW         = [18,23,24,25]
+            self.COLUMN      = [4,17,22,21]
+        else:
+            return
+     
+    def getKey(self):
+         
+        # Set all columns as output low
+        for j in range(len(self.COLUMN)):
+            GPIO.setup(self.COLUMN[j], GPIO.OUT)
+            GPIO.output(self.COLUMN[j], GPIO.LOW)
+         
+        # Set all rows as input
+        for i in range(len(self.ROW)):
+            GPIO.setup(self.ROW[i], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+         
+        # Scan rows for pushed key/button
+        # A valid key press should set "rowVal"  between 0 and 3.
+        rowVal = -1
+        for i in range(len(self.ROW)):
+            tmpRead = GPIO.input(self.ROW[i])
+            if tmpRead == 0:
+                rowVal = i
+                 
+        # if rowVal is not 0 thru 3 then no button was pressed and we can exit
+        if rowVal <0 or rowVal >3:
+            self.exit()
+            return
+         
+        # Convert columns to input
+        for j in range(len(self.COLUMN)):
+                GPIO.setup(self.COLUMN[j], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+         
+        # Switch the i-th row found from scan to output
+        GPIO.setup(self.ROW[rowVal], GPIO.OUT)
+        GPIO.output(self.ROW[rowVal], GPIO.HIGH)
+ 
+        # Scan columns for still-pushed key/button
+        # A valid key press should set "colVal"  between 0 and 2.
+        colVal = -1
+        for j in range(len(self.COLUMN)):
+            tmpRead = GPIO.input(self.COLUMN[j])
+            if tmpRead == 1:
+                colVal=j
+                 
+        # if colVal is not 0 thru 2 then no button was pressed and we can exit
+        if colVal <0 or colVal >2:
+            self.exit()
+            return
+ 
+        # Return the value of the key pressed
+        self.exit()
+        return self.KEYPAD[rowVal][colVal]
+         
+    def exit(self):
+        # Reinitialize all rows and columns as input at exit
+        for i in range(len(self.ROW)):
+                GPIO.setup(self.ROW[i], GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+        for j in range(len(self.COLUMN)):
+                GPIO.setup(self.COLUMN[j], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+         
+if __name__ == '__main__':
+    # Initialize the keypad class
+    kp = keypad()
+     
+    # Loop while waiting for a keypress
+    digit = None
+    while digit == None:
+        digit = kp.getKey()
+     
+    # Print the result
+    print digit
+
+THIS CODE IS JUST FOR LIBRARY PURPOSE
+
+2. locksystem program
+
+import time
+import RPi.GPIO as GPIO
+from keypad import keypad
+ 
+GPIO.setwarnings(False)
+# Initialize
+kp = keypad(columnCount = 3) 
+
+while True:
+        
+    print("Please press * key and then enter password")
+    # waiting for a keypress
+    digit = None
+    while digit == None:
+        digit = kp.getKey()
+    
+    print digit
+    time.sleep(0.5)
+ 
+    if(digit == '*'):
+        print("Enter your 4 Digit password and then press #")
+        seq = []
+        for i in range(5):
+            digit = None
+            while digit == None:
+                digit = kp.getKey()
+                
+            print digit
+            seq.append(digit)
+            time.sleep(0.4)
+     
+        print(seq)
+        if seq == [1, 2, 3, 4, '#']:
+            print ("Code accepted")
+        else:
+			print("Please try again !")
+    else:
+        print("Wrong key is Pressed")
+
+OUTPUT:
+" pi@raspberrypi:~/Desktop $ ls
+'dht11 sensor.py'   ir.py       keypad.pyc   locksystem.py   pwm.py
+ evenodd.py         keypad.py   led.py       mq2.py          ultrasonic.py
+pi@raspberrypi:~/Desktop $ python locksystem.py
+Please press * key and then enter password
+5
+Wrong key is Pressed
+Please press * key and then enter password
+4
+Wrong key is Pressed
+Please press * key and then enter password
+*
+Enter your 4 Digit password and then press #
+1
+2
+3
+4
+#
+[1, 2, 3, 4, '#']
+Code accepted
+Please press * key and then enter password "
+
+13-11-2021
+
+>>>>>raspberrypi keypad with 8*8 matrix
+fisrt connect keypad
+1 use keypad program 
+2 locksystem program fromgithub
+install 8*8 matrix library in raspberry pi
+ put this in raspberry command pmt
+one by one
+
+
+1.git clone https://github.com/rm-hull/max7219.git
+
+2.cd max7219
+
+3.sudo python3 setup.py install
+
+4.sudo python3 examples/view_messages.py
+
+find the folder pi>max7219>examples>view_message.py
+open geany go 
+go to geany terminal
+pi@raspberrypi:~/Desktop $ cd ..
+pi@raspberrypi:~ $ ls
+Adafruit_Python_DHT  Documents  IRAdafruit.py  Pictures  Templates         ultrasonic.py
+Bookshelf            Downloads  max7219        Public    ultraadafruit.py  ultrasonic.pyc
+Desktop              high.txt   Music          smoke.py  Ultrasonic1.py    Videos
+pi@raspberrypi:~ $ cd ..
+pi@raspberrypi:/home $ ls
+pi
+pi@raspberrypi:/home $ cd pi
+pi@raspberrypi:~ $ ls
+Adafruit_Python_DHT  Documents  IRAdafruit.py  Pictures  Templates         ultrasonic.py
+Bookshelf            Downloads  max7219        Public    ultraadafruit.py  ultrasonic.pyc
+Desktop              high.txt   Music          smoke.py  Ultrasonic1.py    Videos
+pi@raspberrypi:~ $ cd max7219
+pi@raspberrypi:~/max7219 $ cd ex
+bash: cd: ex: No such file or directory
+pi@raspberrypi:~/max7219 $ cd examples/
+pi@raspberrypi:~/max7219/examples $ python3 view_message.py 
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/luma.core-2.3.1-py3.7.egg/luma/core/interface/serial.py", line 303, in __init__
+    self._spi.open(port, device)
+FileNotFoundError: [Errno 2] No such file or directory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "view_message.py", line 39, in <module>
+    output(args.cascaded, args.block_orientation, args.rotate, args.reverse_order, args.text)
+  File "view_message.py", line 18, in output
+    serial = spi(port=0, device=0, gpio=noop())
+  File "/usr/local/lib/python3.7/dist-packages/luma.core-2.3.1-py3.7.egg/luma/core/interface/serial.py", line 314, in __init__
+    raise luma.core.error.DeviceNotFoundError('SPI device not found')
+luma.core.error.DeviceNotFoundError: SPI device not found
+pi@raspberrypi:~/max7219/examples $ 
+
+
+@@@@@@ view message programm
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Commandline Wrapper
+# Thomas Wenzlaff
+# See LICENSE.rst for details.
+
+import time
+import argparse
+
+from luma.led_matrix.device import max7219
+from luma.core.interface.serial import spi, noop
+from luma.core.legacy import show_message
+from luma.core.legacy.font import proportional, CP437_FONT
+
+
+def output(n, block_orientation, rotate, inreverse, text):
+    # create matrix device
+    serial = spi(port=0, device=0, gpio=noop())
+    device = max7219(serial, cascaded=n or 1, block_orientation=block_orientation,
+                     rotate=rotate or 0, blocks_arranged_in_reverse_order=inreverse)
+    print(text)
+
+    show_message(device, text, fill="white", font=proportional(CP437_FONT), scroll_delay=0.05)
+    time.sleep(1)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='view_message arguments',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument('--cascaded', '-n', type=int, default=1, help='Number of cascaded MAX7219 LED matrices')
+    parser.add_argument('--block-orientation', type=int, default=0, choices=[0, 90, -90], help='Corrects block orientation when wired vertically')
+    parser.add_argument('--rotate', type=int, default=0, choices=[0, 1, 2, 3], help='Rotate display 0=0°, 1=90°, 2=180°, 3=270°')
+    parser.add_argument('--reverse-order', type=bool, default=False, help='Set to true if blocks are in reverse order')
+    parser.add_argument('--text', '-t', default='>>> No text set', help='Set text message')
+    args = parser.parse_args()
+
+    try:
+        output(args.cascaded, args.block_orientation, args.rotate, args.reverse_order, args.text)
+    except KeyboardInterrupt:
+        pass
+
+
+
+>>>>>>enable spi device
+
+go to raspberry icon
+go to raspberry pi configuraton
+interface
+spi enable
+
+program
+import time
+import RPi.GPIO as GPIO
+from keypad import keypad
+
+import time
+import argparse
+
+from luma.led_matrix.device import max7219
+from luma.core.interface.serial import spi, noop
+from luma.core.legacy import show_message
+from luma.core.legacy.font import proportional, CP437_FONT
+ 
+GPIO.setwarnings(False)
+# Initialize
+kp = keypad(columnCount = 4) 
+
+def output(n, block_orientation, rotate, inreverse, text):
+    # create matrix device
+    serial = spi(port=0, device=0, gpio=noop())
+    device = max7219(serial, cascaded=n or 1, block_orientation=block_orientation,
+                     rotate=rotate or 0, blocks_arranged_in_reverse_order=inreverse)
+    print(text)
+    show_message(device, text, fill="white", font=proportional(CP437_FONT), scroll_delay=00.1)
+    time.sleep(1)
+    
+while True:
+        
+    print("Please press * key and then enter password")
+    # waiting for a keypress
+    digit = None
+    while digit == None:
+        digit = kp.getKey()
+    
+    print (digit)
+    time.sleep(0.5)
+ 
+    if(digit == '*'):
+        print("Enter your 4 Digit password and then press #")
+        seq = []
+        for i in range(5):
+            digit = None
+            while digit == None:
+                digit = kp.getKey()
+                
+            print(digit)
+            seq.append(digit)
+            time.sleep(0.4)
+     
+        print(seq)
+        if seq == [1, 2, 3, 4, '#']:
+            print ("Code accepted")
+            output(1,0,0,False, "password correct")
+        else:
+            print("Please try again !")
+            output(1,0,0,False, "password wrong")
+    else:
+        print("Wrong key is Pressed")
+ 
+output:
+
+pi@raspberrypi:~/Desktop $ python3 keypad8*8matrix.py
+Please press * key and then enter password
+*
+Enter your 4 Digit password and then press #
+1
+2
+3
+4
+#
+[1, 2, 3, 4, '#']
+Code accepted
+password correct
+Please press * key and then enter password
+*
+Enter your 4 Digit password and then press #
+1
+2
+3
+4
+#
+[1, 2, 3, 4, '#']
+Code accepted
+password correct
+Please press * key and then enter password
+*
+Enter your 4 Digit password and then press #
+1
+2
+3
+4
+#
+[1, 2, 3, 4, '#']
+Code accepted
+password correct
+
+15/11/2021
+internet protocols
+>TCP/IP
+fisrt protocol
+streem protocolss
+also called as looless protocol
+
+data is trasmited  in between two endpoint
+>HTTP
+it work upon TCP/IP
+transmit the all data present on the world wide web
+
+network socket
+socket programming
+
+
+how to create a socket
+
+
+import socket libbrary in python
+
+
+>>>>>>adafruit led  control
+
+program
+#pip3 install adafruit-io
+
+import time
+import RPi.GPIO as GPIO
+from Adafruit_IO import Client
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(2,GPIO.OUT)
+
+ADAFRUIT_IO_USERNAME = "radhika_more"
+ADAFRUIT_IO_KEY = "aio_vuBT34MepYFekeZR1vfLY7o2mtre"
+
+aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+distance_feed = aio.feeds('light')
+
+while True:
+	print("Receiving data..")
+	status = aio.receive(distance_feed.key).value
+	print(status)
+	if status == "ON":
+		GPIO.output(2,True)
+		print("LED ON")
+	else:
+		GPIO.output(2,False)
+		print("LED OFF")
+	time.sleep(5)
+
+
+go to ada fruit create feed and add botton block to it
+
+output receive in adafruit clout and terminal
+
+
+>>>>>>adafruit 2 led
+#pip3 install adafruit-io
+
+import time
+import RPi.GPIO as GPIO
+from Adafruit_IO import Client
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(3,GPIO.OUT)
+GPIO.setup(4,GPIO.OUT)
+
+
+ADAFRUIT_IO_USERNAME = "radhika_more"
+ADAFRUIT_IO_KEY = "aio_vuBT34MepYFekeZR1vfLY7o2mtre"
+
+aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+distance_feed = aio.feeds('light1')
+distance_feed = aio.feeds('light2')
+
+
+while True:
+	print("Receiving data..")
+	status = aio.receive(distance_feed.key).value
+	print(status)
+	if status == "ON":
+		GPIO.output(3,True)
+		print("LED1 ON")
+	else:
+		GPIO.output(3,False)
+		print("LED1 OFF")
+	time.sleep(0.1)
+	
+
+	print("Receiving data..")
+	status = aio.receive(distance_feed.key).value
+	print(status)
+	if status == "ON":
+		GPIO.output(4,True)
+		print("LED2 ON")
+	else:
+		GPIO.output(4,False)
+		print("LED2 OFF")
+	time.sleep(0.1) 
+>>>>>>>>>led with slider adafruit
+
+from Adafruit_IO import Client
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(12, GPIO.OUT)  
+pwm = GPIO.PWM(12, 100) 
+
+ADAFRUIT_IO_USERNAME = "radhika_more"
+ADAFRUIT_IO_KEY = "aio_vuBT34MepYFekeZR1vfLY7o2mtre"
+
+aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+
+slider_feed = aio.feeds('slider')
+status=0                               
+pwm.start(status)                   
+
+while True:
+	status = aio.receive(slider_feed.key).value
+	print(status)
+	pwm.ChangeDutyCycle(int(status))
+	time.sleep(0.001)
+pwm.stop()                        
+GPIO.cleanup()
+
+
+output is on cloud
+
+>>>>>>>>ultrasoni ada fruit
+#pip3 install adafruit-io
+
+import time
+import RPi.GPIO as GPIO
+from Adafruit_IO import Client
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO_TRIGGER = 18
+GPIO_ECHO = 24
+
+GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+GPIO.setup(GPIO_ECHO, GPIO.IN)
+
+ADAFRUIT_IO_USERNAME = "radhika_more"
+ADAFRUIT_IO_KEY = "aio_vuBT34MepYFekeZR1vfLY7o2mtre"
+
+# Create an instance of the REST client.
+aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+
+distance_feed = aio.feeds('ultrasonic')
+
+
+def distance():
+    StartTime = time.time()
+    StopTime = time.time()
+	
+    # set Trigger to HIGH
+    GPIO.output(GPIO_TRIGGER, True)
+ 
+    # set Trigger after 0.01ms to LOW
+    time.sleep(0.00001)
+    GPIO.output(GPIO_TRIGGER, False)
+
+    while GPIO.input(GPIO_ECHO) == 0:
+        StartTime = time.time()
+ 
+    # save time of arrival
+    while GPIO.input(GPIO_ECHO) == 1:
+        StopTime = time.time()
+ 
+    TimeElapsed = StopTime - StartTime
+    distance = (TimeElapsed * 34300) / 2
+ 
+    return distance
+
+while True:
+    dist = distance()
+    print ("Measured Distance = %.1f cm" % dist)
+    try:
+        aio.send(distance_feed.key, str(dist))
+        time.sleep(5)
+    except:
+        print("Exception occured..")
+
+output is on choud
+
+17/11/2021
+
+socket in python
+
+impot socket
+s = socket.socket(socket.AF_INET.socket.SOCK_STREAM)
+
+
+the SOCK_TREAM means connection oriented TCP protocol
+
+>>>>>>CONNET SOCKET TO GOOGLE
+
+1. WRITE PROGRAM TO CONNECT
+import socket
+import sys
+
+try:
+	s =socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+	print ("Socket successfully created")
+except socket.error as err:
+	print("socket creation fail with error%" %(err))
+	
+try:
+	host_ip = socket.gethostbyname('www.google.com')
+except socket.gaierror:
+	print("there was an error resolving the host")
+	sys.exit()
+	
+s.connect((host_ip, 80))
+
+print("the socket has successfully connected to google")
+
+2. CREATE SOCKET AND OPEN ON IP ADRESS (server)
+
+import socket
+
+s = socket.socket()
+print("socket successfully created")
+
+
+port = 1234
+
+s.bind(('',port))
+print("socket binded to %s" %(port))
+
+s.listen(5)
+print("socket is listening")
+
+while True:
+	
+	c, addr = s.accept()
+	print('got connection from ',addr)
+	
+	c.send('thank you for connecting',encode())
+	c.close()
+3.client
+import socket
+
+s = socket.socket()
+s.connect(('127.0.0.1', 1238))
+
+print(s.recv(1024).decode())
+s.close()
+run the server and clien program at a time
+
+
+>>>>>>>IFTTT
+GO TO ADAFRUIT ACC
+THEN SERVICE
+THEN CLICK ON GET STAST
+IFTTT  GET START
+CLICK HERE TO CONNECT ACC
+CONNECT
+CONTINUE WITH GOOGLE
+CONNECT
+CREAT 
+IF THIS ADD -CLICK
+SEARCH GOOGLE ASSISTENT
+CLICK CONNET
+SAY SIMPLE PHRASE
+PUT PHARE WHAT YOU WANT 
+THEN THAT : CLICK
+ADAFRUIT CONNECT
+SELECT THE FEED
+CREAT ACTION
+FINISH
+
+>>>>>>>>>
+MQTT PROTOCOL
+we use free MQTT broker mosquitto
+which you can easily connect to publisher/subscriber using an MQTT client
+as a client we are using python "paho-MQTT" which can be installed with belo comment
+pip3 install paho mqtt
+
+
+---first run publisher program
+import paho.mqtt.client as mqtt
+from random import randrange, uniform
+import time
+
+mqttbroker ="mqtt.eclipseprojects.io"
+
+client = mqtt.Client("Temperature_Inside")
+client.connect(mqttbroker)
+
+while True:
+	randNumber = uniform(100.0,110.0)
+	client.publish("Radhika", randNumber)
+	print("just published" + str(randNumber) + "to topic temp")
+	time.sleep(1)
+
+
+------subscriber
+import paho.mqtt.client as mqtt
+import time
+
+def on_message(client,userdata,message):
+	print("received :",str(message.payload.decode("utf-8")))
+	
+mqttBroker ="mqtt.eclipseprojects.io"
+
+client = mqtt.Client("Smartphone")
+client.connect(mqttBroker)
+
+client.loop_start()
+
+client.subscribe("Radhika")
+client.on_message=on_message
+
+time.sleep(30)
+client.loop_stop()
+
+
+
+ this is how we connect mqtt protocol
+
+>>>>>>>>pic camera 
+install camera in raspberry pi
+
+terminal type this
+:pip3 install picamera
+
+program
+from picamera import PiCamera
+import time
+
+camera =PiCamera()
+time.sleep(2)
+
+camera.capture("/home/pi/Pictures/img.jpg")
+print("done.")
+
+
+>>>>>>servo moter with raspberry
+
+import RPi.GPIO as GPIO
+import time
+
+
+servo_pin= 13
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(servo_pin,GPIO.OUT)
+
+pwm=GPIO.PWM(servo_pin,50)# 50hz frequency
+
+pwm.start(7)
+for i in range(0,3):
+	pwm.ChangeDutyCycle(2.0) #rotate to 0 degrees
+	time.sleep(0.5)
+	pwm.ChangeDutyCycle(12.0) #rotate to 180 degree
+	time.sleep(0.5)
+	pwm.ChangeDutyCycle(7.0) #rotate to 90 degree
+	time.sleep(0.5)
+	
+pwm.ChangeDutyCycle(0)  #this is present jitter
+pwm.stop()
+GPIO.cleanup()
+
+>>>>>>for expanding memory for raspberry pi 
+follow the steps
+
+#Expand filesystem and reclaim space
+You are working with a brand new, fresh install of Raspbian Buster (see the previous section to learn how to flash Buster to your microSD).
+You are comfortable with the command line and Unix environments.
+You have an SSH or VNC connection established with your Pi. Alternatively, you could use a keyboard + mouse + screen.
+
+step #1
+
+Install OpenCV 4 on Raspberry Pi 4 and Raspbian Buster
+
+
+open terminal
+type
+sudo raspi-config
+select advanced options-enter
+select expand filesytem encures -enter
+sudo reboot
+
+Step #2: Install dependencies
+open terminal type:
+sudo apt-get update && sudo apt-get upgrade
+tye 'y' for yes
+
+
+
+ anather way of using web cam
+
+Type in the command 'sudo apt-get install motion ' to start the installation.
+
+Now to make sure that the camera is correctly detected.
+
+Type in the command 'lsusb' and enter. You should see the name of your camera. If it is NOT there, then there is some problem in your camera or the camera is not supported in 'motion'.
+
+After the installation is complete, type in the command ' sudo nano /etc/motion/motion.conf ' and press enter.
+
+Then you have to change some settings in the .conf file. It might be difficult sometimes to find the settings but use 'ctrl + w' to find it. So follow the steps:
+
+Make sure 'daemon' is ON.
+Set 'framerate' anywhere in between 1000 to 1500.
+Keep 'Stream_port' to 8081.
+'Stream_quality' should be 100.
+Change 'Stream_localhost' to OFF.
+Change 'webcontrol_localhost' to OFF.
+Set 'quality' to 100.
+Set 'width' & 'height' to 640 & 480.
+Set 'post_capture' to 5.
+Press ctrl + x to exit. Type y to save and enter to conform.
+Again type in the command 'sudo nano /etc/default/motion ' and press enter.
+
+Set ' start_motion_daemon ' to yes. Save and exit.
+
+First of all your have to restart the motion software. To do it type in the command 'sudo service motion restart' and press enter.
+
+Again type in the command 'sudo motion' and press enter. Now your server is ready.
+
+
+#########################################
+
+
+
+>>>>sudo nano /home/pi/.bashrc
+
+>>>>echo running in boot
+>>>>sudo python3/home/Desktop/led.py
+
+program will run on putty
+
+*******************************************
+publisher -subcsriber (thingspeak) MQTT
+
+import paho.mqtt.publish as publish
+
+channelID = "1546920"
+apiKey = "5OUXUQ2NPQAXWW60"
+
+tTransport = "tcp"
+tPort = 1883
+tTLS =None
+
+mqttHost ="mqtt.thingspeak.com"
+topic = "channels/"+ channelID + "/publish/" + apiKey
+
+while True:
+	tPayload = "field1=" + str(80) +"&field2=" + str(15)
+	publish.single(topic, payload=tPayload,hostname=mqttHost,port=tPort,tls=tTLS,transport=tTransport)
+	print("data published successfully")
+	
+output is on thingspeak
+
+***********
+MMQTT X
+
+username = GSMzFhcqEDkPCDcJLz0LPQw
+clientId = GSMzFhcqEDkPCDcJLz0LPQw
+password = bI3hTaEshBPc013Ti8VckO95
+
+
+thinkspeak and mqttx
+
+
+
+
+
+
+
